@@ -10,15 +10,10 @@ import axios from 'axios';
 // axios.baseURL = "http://localhost8080"
 
 const apiCall = () => {
-  // axios.get('/').then((data) => 
-  //   //this console.log will be in our frontend console
-  //   console.log(data)
-  // })
-  fetch("/api/")
-      .then((res) => res.json())
-      .then((data) => {
-      console.log(data.message)
-    })
+  axios.get('/api').then((data) => {
+    //this console.log will be in our frontend console
+    console.log(data)
+  })
 }
 function App() {
   return (
