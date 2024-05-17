@@ -1,7 +1,9 @@
 import logo from './logo.svg';
 import './App.css';
 import axios from 'axios';
+import { HashRouter as Router, Routes, Route } from 'react-router-dom';
 
+import Home from './pages/home'
 
 // axios.defaults.baseURL = 'http://localhost:8080';
 // axios.defaults.headers.common['Authorization'] = 'AUTH TOKEN';
@@ -17,11 +19,15 @@ const apiCall = () => {
 }
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <button onClick={apiCall}>Make API Call</button>
-      </header>
-    </div>
+    <>
+      <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@100&family=Roboto:wght@300;400&display=swap" rel="stylesheet"/>
+      <Router>
+        <Routes>
+          <Route path="/" element={ <Home/> }/>
+        </Routes>
+      </Router>
+    </>
+    
   );
 }
 
