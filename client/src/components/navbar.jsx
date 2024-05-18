@@ -16,6 +16,32 @@ function LoggedInNav({name, link, isLogged,}){
   )
 }
 
+function Login({isLogged}) {
+  if(isLogged){
+    return(
+      <>    
+        <NavLink className="nav-item-text" to="/login">
+          <li className="nav-item" id="login-nav-option">
+            <span>Logout</span>
+          </li>
+        </NavLink>
+      </>
+    )
+  }
+  else{ 
+    return(
+      <>    
+        <NavLink className="nav-item-text" to="/login">
+          <li className="nav-item" id="login-nav-option">
+            <span>Login</span>
+          </li>
+        </NavLink>
+      </>
+    )
+  }
+
+}
+
 
 export default function Navbar(){
 
@@ -38,11 +64,8 @@ export default function Navbar(){
               <span>Recipes</span>
             </li>
           </NavLink>
-          <NavLink className="nav-item-text" to="/login">
-            <li className="nav-item" id="login-nav-option">
-              <span>Login</span>
-            </li>
-          </NavLink>
+          <Login isLogged={loginStatus}/>
+
           </ul> 
         </nav>
       </header>
