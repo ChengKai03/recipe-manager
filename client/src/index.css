@@ -35,6 +35,7 @@ header{
 
 .nav-list{
    list-style-type:none;
+   flex-direction: row;
    display:inline-block;
    font-size:1rem;
    align-items:left;
@@ -45,6 +46,22 @@ header{
    display:inline-block;
    padding:30px;
  }
+
+.nav-search{
+  display: inline-flex;
+  flex-direction: row;
+  padding: 1rem;
+}
+
+#search-field{
+  display: inherit;
+  padding-right: 0px;
+}
+
+#search-button{
+  display: inherit;
+  padding-left: 0px;
+}
 
  .nav-item:hover{
    background-color:#31363F;

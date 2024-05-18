@@ -21,16 +21,21 @@ let pool = mysql.createPool({
 });
 
 app.get('/api', (req, res) => {
-      let sql = `SELECT * FROM STUDENT`
-      pool.query(sql, (err, result) => {
-            if(err){
-                  console.log(err)
-                  throw err
-            }
-            console.log(result)
-            res.send(result)
-      })
-      
+  let sql = `SELECT * FROM STUDENT`
+  try{
+    pool.query(sql, (err, result) => {
+      if(result){
+       res.send(result)
+      }
+      else{
+        res.send("NO DATA")
+      }
+     
+    })
+  } catch(error) {
+
+    console.log(err)
+  }
 })
 
 app.listen(port, () => {
