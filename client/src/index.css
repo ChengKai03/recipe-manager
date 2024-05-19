@@ -106,3 +106,28 @@ header{
   align-items: center;
   flex-wrap: wrap;
 }
+
+.heading{
+    font-size: 32px;
+    margin-bottom: 1rem;
+}
+
+.login-field{
+    display: inherit;
+    flex-direction: column;
+    padding: 1rem;
+}
+
+.input-field{
+    padding: 10px;
+    margin: 5px;
+}
+
+#prompt{
+    text-decoration: none;
+    color: black;
+}
+
+#prompt:hover{
+    text-decoration: underline;
+}
