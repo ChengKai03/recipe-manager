@@ -9,9 +9,7 @@ export default function Navbar({loginStatus, setLoginStatus}) {
         <a className="brand" href="./">Recipe Manager</a>
         <nav className="nav">
             <ul className="nav-list">
-                <li className="nav-search">
-                    <Search id="search-field"/>
-                </li>
+                <Search id="search-field"/>
              
                 <LoggedInNav name="My Recipes" link={"/my-recipes"} isLogged={loginStatus}/>
                 <LoggedInNav name="Add Recipe" link={"/add-recipe"} isLogged={loginStatus}/>

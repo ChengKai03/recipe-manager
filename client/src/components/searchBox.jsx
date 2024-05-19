@@ -1,5 +1,9 @@
 import { useState } from "react"
 import axios from "axios"
+import { IconButton } from "@mui/material"
+import SearchIcon from '@mui/icons-material/Search';
+import { useLocation } from "react-router-dom"
+
 
 export default function Search(){
   
@@ -18,13 +22,22 @@ export default function Search(){
     const text = event.target.value
     setSearchText(text)  
   }
-
-  return (  
-    <>
-      <form onSubmit={handleSearch}>
-        <input type="text" placeholder="Search" name="searchText" onChange={handleChange}/>
-      </form>
-      <button id="search-button" onClick={handleSearch}>Go</button>
-    </>
-  )
+     
+    let location = useLocation()
+    // console.log(location)
+    
+    if(location.pathname === "/"){           
+        return (  
+            <li className="nav-search">
+                <form onSubmit={handleSearch}>
+                    <input className="input-field" type="text" placeholder="Search" name="searchText" onChange={handleChange}/>
+                </form>
+                
+                <IconButton onClick={handleSearch}>
+                    <SearchIcon id="search-button"/>
+                </IconButton>
+            </li>
+      )
+    }
+    return null
 } 

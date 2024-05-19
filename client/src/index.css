@@ -54,8 +54,9 @@ header{
 }
 
 #search-field{
-  display: inherit;
-  padding-right: 0px;
+    display: inherit;
+    padding-right: 0px;
+    padding: 10px;
 }
 
 #search-button{
@@ -78,6 +79,18 @@ header{
 .active{
    background-color:#76ABAE;
  }
+
+#search-button{
+    display: inherit;
+    background-color: #fff;
+    margin-left: 0px;
+    padding:5px;
+    border-radius: 32px;
+}
+
+#search-button:hover{
+    background-color: #e6e6e4;
+}
 
 .brand{
   text-decoration:none;
@@ -123,7 +136,12 @@ header{
     margin: 5px;
 }
 
+.input-field:focus{
+    background-color: #f5f5f5;
+}
+
 #prompt{
+    margin: 10px;
     text-decoration: none;
     color: black;
 }
