@@ -111,10 +111,10 @@ header{
    align-items:center;
  }
 
-#content{
+.content{
   padding: 16px;
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   flex-wrap: wrap;
@@ -148,4 +148,24 @@ header{
 
 #prompt:hover{
     text-decoration: underline;
+}
+
+.list-container{
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+    align-items: center;
+    justify-content: center;
+}
+
+.button{
+    color: #76ABAE;
+}
+
+.button:hover{
+    color: #31363F;
+}
+
+.sub-header{
+    font-size: 25px;
 }
