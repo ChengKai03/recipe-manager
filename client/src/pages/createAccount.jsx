@@ -3,6 +3,7 @@ import { useState } from "react";
 import Panel from "../components/panel";
 import { Link } from "react-router-dom";
 
+const validate = require("../lib/validate.js")
 
 export default function CreateAccount(){
 
@@ -12,12 +13,12 @@ export default function CreateAccount(){
         passwordVerified : ""
     })
    
-
-    const login = (event) =>{
+    const create = (event) =>{
         console.log(info)
-        
+        const validUser = validate.validateUsername(info.username)
+        const validPass = validate.verifyPassword(info.password)
+        console.log(validUser, validPass)
     }
-
     
     const handleChange = (event) => {
         const name = event.target.name
@@ -36,7 +37,7 @@ export default function CreateAccount(){
                         <input className="input-field" type="password" placeholder="Password" name="password" onChange={handleChange}/>
                         <input className="input-field" type="password" placeholder="Enter password again" name="passwordVerified" onChange={handleChange}/>
                     </form>
-                    <Button variant="outlined" to="/login" component={Link}>Create</Button>
+                    <Button variant="outlined" onClick={create} component={Link}>Create</Button>
                 </>
             }/>
         </>

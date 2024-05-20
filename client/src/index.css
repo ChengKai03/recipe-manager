@@ -114,7 +114,7 @@ header{
 .content{
   padding: 16px;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   justify-content: center;
   align-items: center;
   flex-wrap: wrap;
@@ -154,8 +154,6 @@ header{
     display: flex;
     flex-direction: column;
     padding: 10px;
-    align-items: center;
-    justify-content: center;
 }
 
 .button{

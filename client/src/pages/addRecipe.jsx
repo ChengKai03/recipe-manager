@@ -3,6 +3,8 @@ import { useState } from "react"
 import Navbar from "../components/navbar"
 import AddBoxRoundedIcon from '@mui/icons-material/AddBoxRounded';
 import { AddCircleRounded } from "@mui/icons-material";
+import Panel from "../components/panel";
+import { InputAdornment, TextField } from "@mui/material";
 
 
 export default function MyRecipes(){
@@ -19,18 +21,33 @@ export default function MyRecipes(){
 
     return (
     <>
+            <span className="heading">Create a Recipe</span>
             <div className="content">
-                <span className="heading">Create a Recipe</span>
-                <form className="list-container">
-                    <span className="sub-header">Ingredients</span>
-                    {ingredientList}
-                    <AddCircleRounded className="button" onClick={addIngredient}/>
-                    <span className="sub-header">Instructions</span>
-                    {stepsList}
-                    
-                    <AddCircleRounded className="button" onClick={addStep}/>
 
-                </form>
+                <Panel content={
+                    <form className="list-container">
+                        <span className="sub-header">Recipe Information</span>
+                        <TextField variant="standard" label="Title"/>
+                        <TextField 
+                            variant="standard" 
+                            type="number" 
+                            label="Cook Time" 
+                            InputProps={{endAdornment:<InputAdornment position="end">Minutes</InputAdornment>}}/>
+
+                    </form>
+                }/>
+                <Panel content={
+                    <form className="list-container">
+                        <span className="sub-header">Ingredients</span>
+                        {ingredientList}
+                        <AddCircleRounded className="button" onClick={addIngredient}/>
+                        <span className="sub-header">Instructions</span>
+                        {stepsList}
+                        
+                        <AddCircleRounded className="button" onClick={addStep}/>
+
+                    </form>
+                }/>
             </div>
     </>
     )
