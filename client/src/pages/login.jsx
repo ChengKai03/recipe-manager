@@ -1,10 +1,7 @@
 
 import { Button } from "@mui/material"
 import { useState } from "react"
-import { NavLink, Route } from "react-router-dom"
-import Navbar from "../components/navbar"
 import Panel from '../components/panel'
-import Home from '../pages/home'
 
 export default function Login(){
     

@@ -1,7 +1,5 @@
 
 import { useState } from "react"
-import Navbar from "../components/navbar"
-import AddBoxRoundedIcon from '@mui/icons-material/AddBoxRounded';
 import { AddCircleRounded } from "@mui/icons-material";
 import Panel from "../components/panel";
 import { InputAdornment, TextField } from "@mui/material";
