@@ -166,4 +166,12 @@ header{
 
 .sub-header{
     font-size: 25px;
+    margin-right: 10px;
+}
+
+.sub-header-container{
+    margin: 10px;
+    display:inline-box;
+    align-items: center;
+    vertical-align: text-bottom;
 }
