@@ -3,7 +3,7 @@ import { NavLink } from "react-router-dom"
 
 import Search from "./searchBox"
 
-export default function Navbar({loginStatus, setLoginStatus}) {
+export default function Navbar({currentUser, setCurrentUser}) {
     return(
         <header id="navbar">
         <a className="brand" href="./">Recipe Manager</a>
@@ -11,24 +11,24 @@ export default function Navbar({loginStatus, setLoginStatus}) {
             <ul className="nav-list">
                 <Search id="search-field"/>
              
-                <LoggedInNav name="My Recipes" link={"/my-recipes"} isLogged={loginStatus}/>
-                <LoggedInNav name="Add Recipe" link={"/add-recipe"} isLogged={loginStatus}/>
+                <LoggedInNav name="My Recipes" link={"/my-recipes"} currentUser={currentUser}/>
+                <LoggedInNav name="Add Recipe" link={"/add-recipe"} currentUser={currentUser}/>
 
                 <NavLink className="nav-item-text" to="/">
                     <li className="nav-item" id="recipes-nav-option">
-                        <span>Recipes</span>
+                        <span>Recipes</span>    
                     </li>
                 </NavLink>
-                <LoginText isLogged={loginStatus}/>
+                <LoginText currentUser={currentUser}/>
 
             </ul> 
         </nav>
       </header>
     )
 
-    function LoggedInNav({name, link, isLogged}){
-        console.log(isLogged)
-        if(!isLogged){
+    function LoggedInNav({name, link, currentUser}){
+        console.log(currentUser)
+        if(!currentUser){
             return null
         } 
         return(
@@ -40,8 +40,8 @@ export default function Navbar({loginStatus, setLoginStatus}) {
         )
     }
 
-    function LoginText({isLogged}) {
-        if(isLogged === true){
+    function LoginText({currentUser}) {
+        if(currentUser){
             return(
                 <>    
                     <NavLink className="nav-item-text" to="/login">

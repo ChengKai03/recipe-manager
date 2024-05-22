@@ -3,7 +3,7 @@
 
 
 
-export default function MyRecipes(){
+export default function MyRecipes(currentUser){
   return (
     <>
 

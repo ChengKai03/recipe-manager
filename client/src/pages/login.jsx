@@ -7,7 +7,7 @@ import Panel from '../components/panel'
 
 import apicalls from "../lib/apicalls"
 
-export default function Login(){
+const Login = (users) => {
     
     const [info, setInfo] = useState({
         username: "", 
@@ -17,7 +17,9 @@ export default function Login(){
 
     const login = (event) =>{
         apicalls.apiCall()
+        users.setCurrentUser(info.username)
         console.log(info)
+        console.log(users)
     }
 
     
@@ -50,3 +52,5 @@ export default function Login(){
     </>
   )
 }
+
+export default Login

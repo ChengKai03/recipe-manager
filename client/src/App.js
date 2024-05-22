@@ -21,17 +21,17 @@ import CreateAccount from './pages/createAccount';
 
 function App() {
 
-  const [loginStatus, setLoginStatus] = useState(true)
+  const [currentUser, setCurrentUser] = useState("")
   return (
     <>
       <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@100&family=Roboto:wght@300;400&display=swap" rel="stylesheet"/>
       <Router>
-        <Navbar loginStatus={loginStatus} setter={setLoginStatus}/>
+        <Navbar currentUser={currentUser} setCurrentUser={setCurrentUser}/>
         <Routes>
           <Route path="/" element={ <Home/> }/>
-          <Route path="/login" element={ <Login/>}/>
-          <Route path="/my-recipes" element={ <MyRecipes/> }/>
-          <Route path="/add-recipe" element={ <AddRecipes/>}/>
+          <Route path="/login" element={ <Login currentUser={currentUser} setCurrentUser={setCurrentUser}/>}/>
+          <Route path="/my-recipes" element={ <MyRecipes currentUser={currentUser}/> }/>
+          <Route path="/add-recipe" element={ <AddRecipes currentUser={currentUser}/>}/>
           <Route path="/create-account" element={<CreateAccount/>}/>  
         </Routes>
       </Router>

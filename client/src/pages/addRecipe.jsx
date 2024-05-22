@@ -5,7 +5,7 @@ import Panel from "../components/panel";
 import { InputAdornment, TextField } from "@mui/material";
 
 
-export default function MyRecipes(){
+export default function MyRecipes(currentUser){
     const [stepsList, setStepsList] = useState([]);
     const [ingredientList, setIngredientList] = useState([])
     const [equipmentList, setEquipmentList] = useState([])
