@@ -175,3 +175,8 @@ header{
     align-items: center;
     vertical-align: text-bottom;
 }
+
+#create-recipe-button{
+    padding: 5px;
+    border-radius: 10px;
+}
