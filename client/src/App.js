@@ -1,6 +1,6 @@
 
 import './App.css';
-import axios from 'axios';
+
 import { HashRouter as Router, Routes, Route } from 'react-router-dom';
 
 import Home from './pages/home'
@@ -19,12 +19,6 @@ import CreateAccount from './pages/createAccount';
 
 // axios.baseURL = "http://localhost8080"
 
-const apiCall = () => {
-  axios.get('/api').then((data) => {
-    //this console.log will be in our frontend console
-    console.log(data)
-  })
-}
 function App() {
 
   const [loginStatus, setLoginStatus] = useState(true)

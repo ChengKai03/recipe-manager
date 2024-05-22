@@ -3,6 +3,10 @@ import { Button } from "@mui/material"
 import { useState } from "react"
 import Panel from '../components/panel'
 
+// const api = require("../lib/apicalls.js")
+
+import apicalls from "../lib/apicalls"
+
 export default function Login(){
     
     const [info, setInfo] = useState({
@@ -12,6 +16,7 @@ export default function Login(){
    
 
     const login = (event) =>{
+        apicalls.apiCall()
         console.log(info)
     }
 
