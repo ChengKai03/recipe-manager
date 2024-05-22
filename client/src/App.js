@@ -10,6 +10,7 @@ import AddRecipes from './pages/addRecipe';
 import { useState } from 'react';
 import Navbar from './components/navbar';
 import CreateAccount from './pages/createAccount';
+import Logout from './pages/logout';
 
 
 
@@ -32,7 +33,8 @@ function App() {
           <Route path="/login" element={ <Login currentUser={currentUser} setCurrentUser={setCurrentUser}/>}/>
           <Route path="/my-recipes" element={ <MyRecipes currentUser={currentUser}/> }/>
           <Route path="/add-recipe" element={ <AddRecipes currentUser={currentUser}/>}/>
-          <Route path="/create-account" element={<CreateAccount/>}/>  
+          <Route path="/create-account" element={<CreateAccount/>}/>
+          <Route path="/logout" element={<Logout currentUser={currentUser} setCurrentUser={setCurrentUser}/>} />    
         </Routes>
       </Router>
     </>

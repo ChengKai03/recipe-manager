@@ -2,13 +2,14 @@
 import { Button } from "@mui/material"
 import { useState } from "react"
 import Panel from '../components/panel'
+import { useNavigate } from "react-router-dom"
 
 // const api = require("../lib/apicalls.js")
 
 import apicalls from "../lib/apicalls"
 
 const Login = (users) => {
-    
+    const navigate = useNavigate()
     const [info, setInfo] = useState({
         username: "", 
         password: ""
@@ -20,6 +21,7 @@ const Login = (users) => {
         users.setCurrentUser(info.username)
         console.log(info)
         console.log(users)
+        navigate("/")
     }
 
     

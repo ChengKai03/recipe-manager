@@ -3,7 +3,7 @@ import { NavLink } from "react-router-dom"
 
 import Search from "./searchBox"
 
-export default function Navbar({currentUser, setCurrentUser}) {
+const Navbar = (userState) => {
     return(
         <header id="navbar">
         <a className="brand" href="./">Recipe Manager</a>
@@ -11,15 +11,15 @@ export default function Navbar({currentUser, setCurrentUser}) {
             <ul className="nav-list">
                 <Search id="search-field"/>
              
-                <LoggedInNav name="My Recipes" link={"/my-recipes"} currentUser={currentUser}/>
-                <LoggedInNav name="Add Recipe" link={"/add-recipe"} currentUser={currentUser}/>
+                <LoggedInNav name="My Recipes" link={"/my-recipes"} currentUser={userState.currentUser}/>
+                <LoggedInNav name="Add Recipe" link={"/add-recipe"} currentUser={userState.currentUser}/>
 
                 <NavLink className="nav-item-text" to="/">
                     <li className="nav-item" id="recipes-nav-option">
                         <span>Recipes</span>    
                     </li>
                 </NavLink>
-                <LoginText currentUser={currentUser}/>
+                <LoginText userState={userState}/>
 
             </ul> 
         </nav>
@@ -40,11 +40,16 @@ export default function Navbar({currentUser, setCurrentUser}) {
         )
     }
 
-    function LoginText({currentUser}) {
-        if(currentUser){
+    function logout(userState) {
+        userState.setCurrentUser("")
+    }
+
+    function LoginText({userState}) {
+        console.log("LOGINTEXT", userState)
+        if(userState.currentUser){
             return(
                 <>    
-                    <NavLink className="nav-item-text" to="/login">
+                    <NavLink className="nav-item-text" to="/logout" >
                         <li className="nav-item" id="login-nav-option">
                             <span>Logout</span>
                         </li>
@@ -66,3 +71,4 @@ export default function Navbar({currentUser, setCurrentUser}) {
 
     }
 }
+export default Navbar
