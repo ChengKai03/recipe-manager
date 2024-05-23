@@ -11,7 +11,7 @@ import { useState } from 'react';
 import Navbar from './components/navbar';
 import CreateAccount from './pages/createAccount';
 import Logout from './pages/logout';
-import Recipe from './pages/recipes.jsx'
+import Recipe from './pages/specificRecipe.jsx'
 
 
 // axios.defaults.baseURL = 'http://localhost:8080';
