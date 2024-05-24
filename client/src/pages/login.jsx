@@ -18,11 +18,11 @@ const Login = (users) => {
 
     const login = async (event) =>{
         const success = await apicalls.login(info.username, info.password)
-        console.log("loginjsx == ", success)
+        // console.log("loginjsx == ", success)
         if(success){
             users.setCurrentUser(info.username)
-            console.log(info)
-            console.log(users)
+            // console.log(info)
+            // console.log(users)
             navigate("/")
         }
     }
@@ -31,7 +31,7 @@ const Login = (users) => {
     const handleChange = (event) => {
         const name = event.target.name
         const value = event.target.value
-        console.log(name, value)
+        // console.log(name, value)
         setInfo((prev) => {return {...prev, [name]: value}}) 
     }
     return (

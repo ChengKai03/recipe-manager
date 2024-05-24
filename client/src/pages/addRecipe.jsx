@@ -1,7 +1,6 @@
 
 import { useState } from "react"
 import { AddCircleRounded } from "@mui/icons-material";
-import Panel from "../components/panel";
 import { InputAdornment, TextField } from "@mui/material";
 
 

@@ -23,21 +23,6 @@ let pool = mysql.createPool({
 });
 
 app.get('/api', (req, res) => {
-  // let sql = `SELECT * FROM STUDENT`
-  // try{
-  //   pool.query(sql, (err, result) => {
-  //     if(result){
-  //      res.send(result)
-  //     }
-  //     else{
-  //       res.send("NO DATA")
-  //     }
-  //    
-  //   })
-  // } catch(error) {
-  //
-  //   console.log(err)
-  // }
     res.send("hello from server")
 })
 
@@ -47,10 +32,11 @@ app.get('/all-recipes', (req, res) => {
 
 app.get("/login", (req, res) => {  
     console.log("params ==" , req.query)
-    const sql = 'SELECT * FROM Website_user WHERE username = ? LIMIT 1'
+    const sql = 'SELECT * FROM Website_user WHERE userId = ? LIMIT 1'
     const sqlFormatted = mysql.format(sql, [req.query.username])
     try{
         pool.query(sqlFormatted, (err, result) => {
+            // console.log(result)
             const passCheck = bcrypt.compareSync(req.query.password, result[0].password)
             console.log(passCheck)
             if(passCheck){
@@ -69,6 +55,32 @@ app.get("/login", (req, res) => {
     
 })
 
+app.post('/create-account', (req, res) => {
+    console.log("body === ", req.body)
+    const userId = req.body.username
+    const password = req.body.password
+
+    const hash = bcrypt.hashSync(password)
+
+    const sql = `INSERT INTO Website_user (userId, password) VALUES (?,?)`
+    const sqlFormatted = mysql.format(sql,[userId,hash])
+
+    try{
+        pool.query(sqlFormatted, (err, result) => {
+            console.log(result)
+            if(result === undefined){
+                res.sendStatus(400)
+            }
+            else{
+                res.sendStatus(200)
+            }
+        })
+    }
+    catch (error){
+        console.log(err)
+    }
+
+})
 
 
 app.listen(port, () => {

@@ -7,7 +7,7 @@ const Logout = (users) => {
     useEffect(() => {
         users.setCurrentUser("")
         navigate("/") 
-    },[users])
+    })
 
 
     return null

@@ -1,4 +1,4 @@
-import { useState } from "react"
+
 import { NavLink } from "react-router-dom"
 
 import Search from "./searchBox"
@@ -27,7 +27,7 @@ const Navbar = (userState) => {
     )
 
     function LoggedInNav({name, link, currentUser}){
-        console.log(currentUser)
+        // console.log(currentUser)
         if(!currentUser){
             return null
         } 
@@ -40,12 +40,12 @@ const Navbar = (userState) => {
         )
     }
 
-    function logout(userState) {
-        userState.setCurrentUser("")
-    }
+    // function logout(userState) {
+        // userState.setCurrentUser("")
+    // }
 
     function LoginText({userState}) {
-        console.log("LOGINTEXT", userState)
+        // console.log("LOGINTEXT", userState)
         if(userState.currentUser){
             return(
                 <>    
