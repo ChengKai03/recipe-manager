@@ -3,64 +3,94 @@ import { useState } from "react"
 import { AddCircleRounded } from "@mui/icons-material";
 import { Button, InputAdornment, TextField } from "@mui/material";
 
+import apicalls from "../lib/apicalls.js"
 
 export default function MyRecipes(currentUser){
     const [stepsList, setStepsList] = useState([]);
     const [ingredientList, setIngredientList] = useState([])
     const [equipmentList, setEquipmentList] = useState([])
+    
+    const [recipe, setRecipe] = useState({
+        title: "",
+        cookTime: 0,
+        category: "" ,
+        specialEquipment : [],
+        ingredients : [],
+        instructions : []
+    })
 
     const addStep = (event) => {
         setStepsList(stepsList.concat(<input type="text" className="input-field" placeholder="Enter instruction" name="instructions" onChange={handleChange} key={stepsList.length}/>))
     }
     
     const removeStep = (event) => {
+        let data = [...recipe.instructions]
+        data.pop()
         setStepsList(stepsList.slice(0,-1))
+        setRecipe((prev) => {return {...prev, instructions:data}}) 
     }
 
     const addIngredient = (event) => {
         setIngredientList(ingredientList.concat(<input type="text" className="input-field" placeholder="Enter ingredient" name="ingredients" onChange={handleChange} key={ingredientList.length}/>))
     }
 
-    const removeIngredient = (event) => {
+    const removeIngredient = (index) => {
         // const newList = ingredientList
+        let data = [...recipe.ingredients]
+        data.pop()
         setIngredientList(ingredientList.slice(0,-1))
+        setRecipe((prev) => {return {...prev, ingredients: data}})
+        // setRecipe(recipe.ingredients.slice(0,-1))
     }
 
     const addEquipment = (event) => {
         setEquipmentList(equipmentList.concat(<input type="text" className="input-field" placeholder="Enter equipment" name="specialEquipment" onChange={handleChange} key={equipmentList.length}/>))
     }
 
-    const removeEquipment = (event) => {
+    const removeEquipment = (index) => {
+        let data = [...recipe.specialEquipment]
+        data.pop()
         setEquipmentList(equipmentList.slice(0,-1))
+        setRecipe((prev) => {return {...prev, specialEquipment: data}})
     }
 
 
-    const [recipe, setRecipe] = useState({
-        title: "",
-        cookTime: 0,
-        specialEquipment : [],
-        ingredients : [],
-        instructions : []
-    })
 
     const handleChange = (event) => {
         const name = event.target.name
         const value = event.target.value
-        // console.log(name, value)
+        console.log(name, value)
 
-        if(name === "title" || name === "cookTime"){
+        if(name === "title" || name === "cookTime" || name === "category"){
             setRecipe((prev) => {return {...prev, [name]: value}}) 
         }
         else{
-            const arr = recipe[name]
-            setRecipe((prev) => {return {...prev, [name]: arr.concat([value])
+            let arr = recipe[name]
+            // arr.push(value)
+            setRecipe((prev) => {return {...prev, [name]: arr.concat(value)
+            
             }})
         }
 
     }
     const createRecipe = (event) =>{
+
+        console.log(ingredientList)
+
+
+
         event.preventDefault() 
         console.log(recipe) 
+        const recipeToSend = {
+            title: recipe.title,
+            ingredients: recipe.ingredients.filter((ingredient) => {return ingredient !== ""}),
+            instructions: recipe.instructions.filter((step) => {return step !== ""}),
+            specialEquipment: recipe.specialEquipment.filter((equipment) => {return equipment !== ""}),
+            cookTime: recipe.cookTime,
+            author: currentUser,
+            category: recipe.category
+        } 
+        apicalls.createRecipe(recipeToSend) 
     }
 
 
@@ -75,6 +105,7 @@ export default function MyRecipes(currentUser){
                 </div>
                 
                 <TextField variant="standard" name="title" label="Title" onChange={handleChange}/>
+                <TextField variant="standard" name="category" label="Category" onChange={handleChange}/>
                 <TextField 
                     variant="standard" 
                     type="number" 
