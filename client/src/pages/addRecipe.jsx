@@ -87,7 +87,7 @@ export default function MyRecipes(currentUser){
             instructions: recipe.instructions.filter((step) => {return step !== ""}),
             specialEquipment: recipe.specialEquipment.filter((equipment) => {return equipment !== ""}),
             cookTime: recipe.cookTime,
-            author: currentUser,
+            author: currentUser.currentUser,
             category: recipe.category
         } 
         apicalls.createRecipe(recipeToSend) 

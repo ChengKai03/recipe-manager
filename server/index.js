@@ -82,6 +82,25 @@ app.post('/create-account', (req, res) => {
 
 })
 
+app.post('/create-recipe', (req, res) => {
+    console.log("body === ", req.body)
+
+    
+    // insert into recipes, ingredients, specialTools, recipe_contains, recipe_uses, recipe_steps
+    
+    const sql = `INSERT INTO Recipe (cookTime, category, recipeTitle, userID) VALUES (?,?,?,?)`
+    const sqlFormatted = mysql.format(sql, [
+        req.body.cookTime,
+        req.body.category,
+        req.body.title,
+        req.body.author
+    ])
+    console.log(sqlFormatted)
+
+
+
+    res.sendStatus(200) 
+})
 
 app.listen(port, () => {
       console.log(`server listening on port ${port}`)
