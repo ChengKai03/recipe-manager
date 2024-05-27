@@ -16,11 +16,12 @@ export default function MyRecipes(currentUser){
         category: "" ,
         specialEquipment : [],
         ingredients : [],
+        amounts: [],
         instructions : []
     })
 
     const addStep = (event) => {
-        setStepsList(stepsList.concat(<input type="text" className="input-field" placeholder="Enter instruction" name="instructions" onChange={handleChange} key={stepsList.length}/>))
+        setStepsList(stepsList.concat(<TextField variant="outlined"type="text" className="input-field" placeholder="Enter instruction" name="instructions" onChange={handleChange} key={stepsList.length}/>))
     }
     
     const removeStep = (event) => {
@@ -31,7 +32,19 @@ export default function MyRecipes(currentUser){
     }
 
     const addIngredient = (event) => {
-        setIngredientList(ingredientList.concat(<input type="text" className="input-field" placeholder="Enter ingredient" name="ingredients" onChange={handleChange} key={ingredientList.length}/>))
+        setIngredientList(ingredientList.concat(
+            <div>
+                <TextField variant="outlined" className="input-field" placeholder="Enter ingredient" name="ingredients" onChange={handleChange} key={ingredientList.length}/>
+                <TextField 
+                    variant="outlined"
+                    className="input-field" 
+                    placeholder="Enter amount" 
+                    name="amounts" type="number" 
+                    InputProps={{endAdornment:<InputAdornment position="end">grams</InputAdornment>}}
+                    onChange={handleChange}
+                />
+            </div>
+        ))
     }
 
     const removeIngredient = (index) => {
@@ -44,7 +57,7 @@ export default function MyRecipes(currentUser){
     }
 
     const addEquipment = (event) => {
-        setEquipmentList(equipmentList.concat(<input type="text" className="input-field" placeholder="Enter equipment" name="specialEquipment" onChange={handleChange} key={equipmentList.length}/>))
+        setEquipmentList(equipmentList.concat(<TextField type="text" className="input-field" placeholder="Enter equipment" name="specialEquipment" onChange={handleChange} key={equipmentList.length}/>))
     }
 
     const removeEquipment = (index) => {
@@ -84,12 +97,18 @@ export default function MyRecipes(currentUser){
         const recipeToSend = {
             title: recipe.title,
             ingredients: recipe.ingredients.filter((ingredient) => {return ingredient !== ""}),
+            amounts: recipe.amounts.filter((amount) => {return amount !== ""}),
             instructions: recipe.instructions.filter((step) => {return step !== ""}),
             specialEquipment: recipe.specialEquipment.filter((equipment) => {return equipment !== ""}),
             cookTime: recipe.cookTime,
-            author: currentUser.currentUser,
+            author: sessionStorage.getItem("userid"),
             category: recipe.category
         } 
+        
+        if(recipeToSend.ingredients.length !== recipeToSend.amounts.length){
+            alert("Fields do not match up")
+            return
+        }
         apicalls.createRecipe(recipeToSend) 
     }
 

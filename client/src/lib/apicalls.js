@@ -34,6 +34,9 @@ const login = async (username, password) => {
    
     console.log(result.data)
     success = result.data
+    if(!success){
+        alert("No such user exists")
+    }
     return success 
 }
 
