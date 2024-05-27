@@ -21,6 +21,7 @@ const Login = (users) => {
         // console.log("loginjsx == ", success)
         if(success){
             users.setCurrentUser(info.username)
+            sessionStorage.setItem("userid", info.username)
             // console.log(info)
             // console.log(users)
             navigate("/")

@@ -28,7 +28,7 @@ const Navbar = (userState) => {
 
     function LoggedInNav({name, link, currentUser}){
         // console.log(currentUser)
-        if(!currentUser){
+        if(!sessionStorage.getItem("userid")){
             return null
         } 
         return(
@@ -46,7 +46,7 @@ const Navbar = (userState) => {
 
     function LoginText({userState}) {
         // console.log("LOGINTEXT", userState)
-        if(userState.currentUser){
+        if(sessionStorage.getItem("userid")){
             return(
                 <>    
                     <NavLink className="nav-item-text" to="/logout" >
