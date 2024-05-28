@@ -1,6 +1,6 @@
 
 import { useState } from "react"
-import { AddCircleRounded } from "@mui/icons-material";
+// import { AddCircleRounded } from "@mui/icons-material";
 import { Button, InputAdornment, TextField } from "@mui/material";
 
 import apicalls from "../lib/apicalls.js"
@@ -92,7 +92,7 @@ export default function MyRecipes(currentUser){
 
 
 
-        event.preventDefault() 
+        // event.preventDefault() 
         console.log(recipe) 
         const recipeToSend = {
             title: recipe.title,

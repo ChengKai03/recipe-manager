@@ -110,13 +110,26 @@ const createRecipe = async(recipe) => {
     return success
 }
 
-
+const getRecipes = async (searchQuery = "") => {
+    try{
+        const result = await axios.get('/get-recipes', {
+            params: {
+                search: searchQuery
+            }
+        })
+        return result
+    }
+    catch(err){
+        // console.log(err)
+    }
+}
 
 const apis = {
     apiTest,
     login,
     createAccount,
-    createRecipe
+    createRecipe,
+    getRecipes
 }
 
 export default apis

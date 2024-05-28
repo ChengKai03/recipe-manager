@@ -189,6 +189,24 @@ app.post('/create-recipe', async (req, res) => {
     res.sendStatus(200) 
 })
 
+
+app.get('/get-recipes', (req, res) => {
+    console.log("Getting Recipes")
+    console.log(req.query.search)
+
+    if(req.query.search === ""){
+        try {
+            const sql = `SELECT * FROM Recipe`
+            const recipes = pool.query(sql, (err, result) => {
+                console.log(result)
+                res.send(result)
+            })
+        } catch (error) {
+           console.log(err) 
+        }
+    }
+})
+
 app.listen(port, () => {
       console.log(`server listening on port ${port}`)
 })

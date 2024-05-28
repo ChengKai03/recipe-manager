@@ -3,12 +3,13 @@
 TODOS:
 
 API CALLS:
+    post recipe
     get all recipes
     get user specific recipes
     get recipe ingredients
     get recipe specific tools
     get recipes that from search
-    post recipe 
+     
     
 
 PAGES:
