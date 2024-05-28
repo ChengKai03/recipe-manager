@@ -87,7 +87,7 @@ app.post('/create-account', (req, res) => {
 
 })
 
-app.post('/create-recipe', async (req, res) => {
+app.post('/create-recipe', (req, res) => {
     console.log("body === ", req.body)
 
     
@@ -104,89 +104,91 @@ app.post('/create-recipe', async (req, res) => {
     ])
     console.log(sqlRecipeFormatted)
     
-    try{
-        await pool.query(sqlRecipeFormatted, (err, result) => {
+    const recipePromise = new Promise((resolve) =>{
+        pool.query(sqlRecipeFormatted, (err, result) => {
             console.log("recipe", result)
+            resolve()
         })
-    }
-    catch(error){
-        console.log(err)
-    }
+    })
     
 
-    req.body.specialEquipment.forEach(async(tool) => {
-        const sqlTool = `INSERT INTO SpecialTools (toolName) VALUES (?)`
-        const sqlToolFormatted = mysql.format(sqlTool, [tool])
-        console.log(sqlToolFormatted)
-        try{
+    const equipmentPromise = new Promise((resolve) => {
 
-            await pool.query(sqlToolFormatted, (err, result) => {
-                console.log("tools",result)
+        req.body.specialEquipment.forEach((tool) => {
+            const sqlTool = `INSERT INTO SpecialTools (toolName) VALUES (?)`
+            const sqlToolFormatted = mysql.format(sqlTool, [tool])
+            console.log(sqlToolFormatted)
+    
+            const insertEquipment = new Promise((resolve) => {
+                pool.query(sqlToolFormatted, (err, result) => {
+                    console.log("tools",result)
+                    resolve()
+                })
             })
-        }
-        catch(error){
-            console.log(err)
-        }
 
-        const sqlRecipeUses = `INSERT INTO Recipe_uses (recipeID, toolName) VALUES (?,?)`
-        const sqlRecipeUsesFormated = mysql.format(sqlRecipeUses,[recipeID, tool])
-        console.log(sqlRecipeUsesFormated)
-        try{
-            await pool.query(sqlRecipeUsesFormated, (err, result) => {
-                console.log("uses",result)
+            const insertEquipmentDependancy = new Promise((resolve) => {
+                const sqlRecipeUses = `INSERT INTO Recipe_uses (recipeID, toolName) VALUES (?,?)`
+                const sqlRecipeUsesFormated = mysql.format(sqlRecipeUses,[recipeID, tool])
+                console.log(sqlRecipeUsesFormated)
+                pool.query(sqlRecipeUsesFormated, (err, result) => {
+                    console.log("uses",result)
+                    resolve()
+                })
             })
-        }
-        catch(error){
-            console.log(err)
-        }
-
+            insertEquipment.then(insertEquipmentDependancy)
+        })
+        resolve()
     })
-    req.body.ingredients.forEach(async (ingredient, ingredientNum) => {
-        const sqlIngredient = `INSERT INTO Ingredient (ingName) VALUES (?)`
-        const sqlIngredientFormatted = mysql.format(sqlIngredient, [ingredient])
-        console.log(sqlIngredientFormatted)
 
-        try{
-            await pool.query(sqlIngredientFormatted, (err, result) => {
-                console.log("ingredient", result)
+    const ingredientPromise = new Promise((resolve) => {
+
+        req.body.ingredients.forEach((ingredient, ingredientNum) => {
+            
+            const insertIngredient = new Promise((resolve) => {
+                const sqlIngredient = `INSERT INTO Ingredient (ingName) VALUES (?)`
+                const sqlIngredientFormatted = mysql.format(sqlIngredient, [ingredient])
+                console.log(sqlIngredientFormatted)
+                pool.query(sqlIngredientFormatted, (err, result) => {
+                    console.log("ingredient", result)
+                })
             })
-        }
-        catch(error){
-            console.log(err)
-        }
 
-        const sqlRecipeContains = `INSERT INTO Recipe_contains (amount, recipeID, ingName) VALUES (?,?,?)`
-        const sqlRecipeContainsFormatted = mysql.format(sqlRecipeContains, [req.body.amounts[ingredientNum], recipeID, ingredient])
-        console.log(sqlRecipeContainsFormatted)
-        
-        try{
-            await pool.query(sqlRecipeContainsFormatted, (err, result) => {
-                console.log("contains", result)
+            const insertIngredientDependancy = new Promise((resolve) => {
+                const sqlRecipeContains = `INSERT INTO Recipe_contains (amount, recipeID, ingName) VALUES (?,?,?)`
+                const sqlRecipeContainsFormatted = mysql.format(sqlRecipeContains, [req.body.amounts[ingredientNum], recipeID, ingredient])
+                console.log(sqlRecipeContainsFormatted)
+                
+                    pool.query(sqlRecipeContainsFormatted, (err, result) => {
+                        console.log("contains", result)
+                        resolve()
+                    })
             })
-        }
-        catch(error) {
-            console.log(err)
-        }
+        });
+        resolve()
+    })
 
 
-    }); 
-    req.body.instructions.forEach(async (step, stepNum) => {
-        const sqlStep = `INSERT INTO Recipe_steps (stepNum, instruction, recipeID) VALUES(?,?,?)`
-        const sqlStepFormatted = mysql.format(sqlStep, [stepNum+1, step, recipeID])
-        console.log(sqlStepFormatted)
+    const instructionPromise = new Promise((resolve) => {
+        req.body.instructions.forEach((step, stepNum) => {
+            const sqlStep = `INSERT INTO Recipe_steps (stepNum, instruction, recipeID) VALUES(?,?,?)`
+            const sqlStepFormatted = mysql.format(sqlStep, [stepNum+1, step, recipeID])
+            console.log(sqlStepFormatted)
 
-        try{
-            await pool.query(sqlStepFormatted, (err, result) => {
+            pool.query(sqlStepFormatted, (err, result) => {
                 console.log("step",result)
             })
-        }
-        catch(error){
-            console.log(err)
-        }
+        })
+        resolve()
+    })
+
+    
+    recipePromise.then(equipmentPromise).then(ingredientPromise).then(instructionPromise).then(() => {
+        res.sendStatus(200)
     })
 
 
-    res.sendStatus(200) 
+
+    // res.sendStatus(200) 
 })
 
 
@@ -205,6 +207,97 @@ app.get('/get-recipes', (req, res) => {
            console.log(err) 
         }
     }
+})
+
+app.get('/get-recipe-content' ,(req, res) => {
+    console.log("Getting recipe contents")
+    console.log(req.query.recipe)
+    
+    let recipe = {
+        author: "",
+        title: "",
+        cookTime: "",
+        category: "",
+        ingredients: [],
+        instructions: [],
+        specialTools: []
+    }
+
+    // try {
+        const recipeBase = `SELECT cookTime, category, recipeTitle, userID FROM Recipe WHERE recipeID = ?`
+        const recipeBaseFormatted = mysql.format(recipeBase, [req.query.recipe])
+        console.log(recipeBaseFormatted)
+        const basePromise = new Promise((resolve) => {
+
+                pool.query(recipeBaseFormatted, (err, result) => {
+                console.log(result)
+                const fetchedRecipeBase = result[0]
+                recipe.title = fetchedRecipeBase.recipeTitle 
+                recipe.category = fetchedRecipeBase.category
+                recipe.author = fetchedRecipeBase.userID
+                recipe.cookTime = fetchedRecipeBase.cookTime
+                console.log("recipe", recipe)
+                resolve()
+            })
+
+        })
+    // } catch (error) {
+       // console.log(err) 
+    // }
+    
+    // try {
+
+        const recipeIngredients = `SELECT * FROM Recipe_contains WHERE recipeID = ?`
+        const recipeIngredientsFormatted = mysql.format(recipeIngredients, [req.query.recipe])
+        const ingredientPromise = new Promise((resolve) =>{ 
+            pool.query(recipeIngredientsFormatted, (err, result) => {
+                console.log(result) 
+                result.forEach(element => {
+                    console.log("ing", element)
+                    recipe.ingredients.push({
+                        ingredient: element.ingName,
+                        amount: element.amount
+                    })
+                })
+                console.log(recipe)
+                resolve()
+            })
+        })
+    // } catch (err) {
+        // console.log(err)
+    // }
+
+    const recipeSteps = `SELECT * FROM Recipe_steps WHERE recipeID = ? ORDER BY stepNum ASC`
+    const recipeStepsFormatted = mysql.format(recipeSteps, [req.query.recipe])
+    const stepsPromise = new Promise((resolve) => {
+        pool.query(recipeStepsFormatted, (err, result) => {
+            console.log(result)
+            result.forEach(element => {
+                recipe.instructions.push(element.instruction)
+            });
+            console.log(recipe)
+            resolve()
+         })
+    }) 
+   
+    const recipeTools = `SELECT * FROM Recipe_uses WHERE recipeID = ?`
+    const recipeToolsFormatted = mysql.format(recipeTools,[req.query.recipe])
+    const toolsPromise = new Promise((resolve) => {
+        pool.query(recipeToolsFormatted, (err, result) => {
+            console.log(result)
+            result.forEach(element => {
+                recipe.specialTools.push(element.toolName);
+            })
+            console.log(recipe)
+            resolve()
+        })
+    })
+    
+
+   Promise.all([basePromise,ingredientPromise, stepsPromise, toolsPromise]).then(() => {
+        res.send(recipe)
+    }) 
+
 })
 
 app.listen(port, () => {

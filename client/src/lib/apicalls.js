@@ -98,7 +98,20 @@ const createRecipe = async(recipe) => {
     }
 
 
-
+    function capitalizeFirstLetter(string){
+        return string.charAt(0).toUpperCase() + string.slice(1)
+    }
+    recipe.title = capitalizeFirstLetter(recipe.title)
+    recipe.category = capitalizeFirstLetter(recipe.category)
+    recipe.ingredients.forEach((element, i) => {
+        recipe.ingredients[i] = capitalizeFirstLetter(element)
+    });
+    recipe.instructions.forEach((element, i) => {
+        recipe.instructions[i] = capitalizeFirstLetter(element)
+    })
+    recipe.specialEquipment.forEach((element, i) => {
+        recipe.specialEquipment[i] = capitalizeFirstLetter(element)
+    });
 
     let success = true
     try{
@@ -124,12 +137,32 @@ const getRecipes = async (searchQuery = "") => {
     }
 }
 
+const getRecipeContent = (recipeId) => {
+    return new Promise((resolve) =>{
+        try{
+            axios.get('/get-recipe-content', {
+                params: {
+                    recipe: recipeId
+                }
+            }).then((response) =>{
+                    console.log(response)
+                    resolve(response.data)
+                })
+        }
+        catch(err){
+            console.log(err)
+        }
+    })
+}
+
+
 const apis = {
     apiTest,
     login,
     createAccount,
     createRecipe,
-    getRecipes
+    getRecipes,
+    getRecipeContent
 }
 
 export default apis
