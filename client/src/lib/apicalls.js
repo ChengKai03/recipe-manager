@@ -154,6 +154,62 @@ const getRecipeContent = (recipeId) => {
     })
 }
 
+const getRecipeCount = (userID) => {
+    console.log("getting recipe count")
+    return new Promise((resolve) => {
+        try {
+            axios.get("/get-recipe-count", {
+                params: {
+                    user: userID
+                }
+            }).then((response) => {
+                    resolve(response.data)
+                })
+        } catch (err) {
+            console.log(err)
+        }
+    })
+}
+
+const checkUserHash = (user, password) => {
+    return new Promise((resolve) => {
+        axios.get("/check-pass", {
+            params: {
+                user: user,
+                pass: password
+            }
+        }).then((response) => {
+                // console.log(response.data)
+                resolve(response.data)
+            })
+    })
+}
+
+
+//info{
+//  user: string
+//  oldPassword: string
+//  newPassword: string 
+//}
+const updateUsername = (newUsername) => {
+    console.log("username is getting changed")
+    const oldUserID = sessionStorage.getItem("userid")
+    return new Promise((resolve) => {
+        axios.post("/update-username", {newUsername, oldUserID}).then((res) => {
+            console.log(res)
+            if(res.status !== 200){
+                alert("Username is taken")
+                resolve(false)
+            }
+            resolve(true)
+        })
+    })
+}
+
+const updatePassword = (newPassword) => {
+        console.log("Password change")
+    
+}
 
 const apis = {
     apiTest,
@@ -161,7 +217,11 @@ const apis = {
     createAccount,
     createRecipe,
     getRecipes,
-    getRecipeContent
+    getRecipeContent,
+    getRecipeCount,
+    checkUserHash,
+    updateUsername,
+    updatePassword
 }
 
 export default apis

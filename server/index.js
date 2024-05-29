@@ -303,6 +303,54 @@ app.get('/get-recipe-content' ,(req, res) => {
 
 })
 
+
+app.get("/get-recipe-count", (req, res) => {
+    console.log("getting recipe count for", req.query.user) 
+    const sql = `SELECT COUNT(recipeID) AS count FROM Recipe WHERE userID = ?`
+    const sqlFormatted = mysql.format(sql, [req.query.user])
+    console.log(sqlFormatted)
+    try{
+        pool.query(sqlFormatted, (err, result) => {
+            console.log(result[0])
+            res.send(result[0])
+        })
+    }
+    catch(error){
+        console.log(err)
+    }
+
+})
+
+app.get("/check-pass", (req, res) => {
+    const sql = `SELECT password FROM Website_user WHERE userID = ?`
+    const sqlFormatted = mysql.format(sql, [req.query.user])
+    pool.query(sqlFormatted, (err, result) => {
+        console.log(result)
+        const check = bcrypt.compareSync(req.query.pass, result[0].password)
+        console.log(check)
+        res.send(check)
+    })
+})
+
+app.post("/update-username", (req, res) => {
+    console.log(req.body)
+    const sql = `UPDATE Website_user SET userID = ? WHERE userID = ?`
+    const sqlFormatted = mysql.format(sql, [req.body.newUsername, req.body.oldUserID])
+    console.log(sqlFormatted)
+    pool.query(sqlFormatted, (err, result) => {
+        console.log(result)
+        if(result){
+
+            res.sendStatus(200)
+        }
+        else{
+            
+            res.sendStatus(202)
+        }
+    })
+    // res.sendStatus(200)
+})
+
 app.listen(port, () => {
       console.log(`server listening on port ${port}`)
 })
