@@ -48,11 +48,13 @@ const Navbar = (recipeListState) => {
     function LoginText() {
         // console.log("LOGINTEXT", userState)
         if(sessionStorage.getItem("userid")){
+
+            const userProfile = `/profile/${sessionStorage.getItem("userid")}`
             return(
                 <>    
-                    <NavLink className="nav-item-text" to="/logout" >
+                    <NavLink className="nav-item-text" to={userProfile} >
                         <li className="nav-item" id="login-nav-option">
-                            <span>Logout</span>
+                            <span>Profile</span>
                         </li>
                     </NavLink>
                 </>

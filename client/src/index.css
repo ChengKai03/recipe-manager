@@ -123,12 +123,14 @@ header{
 .heading{
     font-size: 32px;
     margin-bottom: 1rem;
+    padding: 10px;
 }
 
 .login-field{
     display: inherit;
     flex-direction: column;
     padding: 1rem;
+    margin: 10px;
 }
 
 .input-field{
@@ -200,4 +202,16 @@ header{
     padding: 10px;
     display: flex;
     flex-direction: column;
+}
+
+
+#profile-heading{
+    padding: 15px;
+    display: inline-text;
+    flex-direction: row;
+
+}
+
+.divider{
+    padding: 20px;
 }
