@@ -21,7 +21,7 @@ const Recipe = () => {
         apicalls.getRecipeContent(recipeID).then((result) => {
             console.log("SHOWING", result)
 
-            setRecipeTitle(<span>{result.title}</span>)
+            setRecipeTitle(<span className="heading">{result.title}</span>)
             setRecipeAuthor(<span>Author: {result.author}</span>)
             setRecipeCookTime(<span>Cook Time: {result.cookTime}</span>)
             setRecipeCategory(<span>Category: {result.category}</span>)
@@ -44,7 +44,7 @@ const Recipe = () => {
 
     return(
     <>
-        <div className="content">
+        <div className="page-contents">
             {recipeTitle}
             {recipeAuthor}
             {recipeCookTime}

@@ -123,18 +123,17 @@ const createRecipe = async(recipe) => {
     return success
 }
 
-const getRecipes = async (searchQuery = "") => {
-    try{
-        const result = await axios.get('/get-recipes', {
-            params: {
-                search: searchQuery
-            }
+const getRecipes = (searchQuery = "") => {
+    return new Promise((resolve) => {
+            axios.get('/get-recipes', {
+                params: {
+                    search: searchQuery
+                    
+                }
+            }).then((response) => {
+                    resolve(response.data)
+                })
         })
-        return result
-    }
-    catch(err){
-        // console.log(err)
-    }
 }
 
 const getRecipeContent = (recipeId) => {

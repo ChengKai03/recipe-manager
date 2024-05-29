@@ -24,13 +24,14 @@ import Profile from './pages/profile';
 function App() {
 
     const [currentUser, setCurrentUser] = useState("")
+    const [recipeList, setRecipeList] = useState("")
         return (
         <>
         <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@100&family=Roboto:wght@300;400&display=swap" rel="stylesheet"/>
         <Router>
-            <Navbar currentUser={currentUser} setCurrentUser={setCurrentUser}/>
+            <Navbar setRecipeList={setRecipeList}/>
             <Routes>
-                <Route path="/" element={ <Home/> }/>
+                <Route path="/" element={ <Home recipeListState={{recipeList, setRecipeList}}/> }/>
                 <Route path="/login" element={ <Login currentUser={currentUser} setCurrentUser={setCurrentUser}/>}/>
                 <Route path="/my-recipes" element={ <MyRecipes currentUser={currentUser}/> }/>
                 <Route path="/add-recipe" element={ <AddRecipes currentUser={currentUser}/>}/>

@@ -136,6 +136,11 @@ header{
     margin: 5px;
 }
 
+#login-content{
+    justify-items: center;
+    justify-content: center;
+}
+
 .input-field:focus{
     background-color: #f5f5f5;
 }
@@ -179,4 +184,20 @@ header{
 #create-recipe-button{
     padding: 5px;
     border-radius: 10px;
+}
+
+.recipe-link{
+    padding: 5px;
+    text-decoration: none;
+    color: black;
+}
+
+.recipe-link:hover{
+    text-decoration: underline;
+}
+
+.page-contents{
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
 }

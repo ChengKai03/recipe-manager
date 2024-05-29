@@ -4,25 +4,25 @@ import apicalls from "../lib/apicalls"
 
 
 
-export default function Home() {
+export default function Home(recipeListState) {
     
 
     // const [recipes, setRecipes] = useState([])
-    const [recipesList, setRecipesList] = useState([])
-
+    // const [recipesList, setRecipesList] = useState([])
+    // console.log(recipeListState)
     useEffect(()=> {
         apicalls.getRecipes().then((result) => {
-            console.log(result.data)
+            console.log(result)
             let newRecipeList = []
-            result.data.forEach(recipe => {
+            result.forEach(recipe => {
                 const recipeToPush = {title: recipe.recipeTitle, recipeID: recipe.recipeID} 
                 // allRecipes.push(recipeToPush)
                 newRecipeList = newRecipeList.concat(
-                    <Link to={"recipes/" + recipeToPush.recipeID}>{recipeToPush.title}</Link>
+                    <Link className="recipe-link" to={"recipes/" + recipeToPush.recipeID}>{recipeToPush.title}</Link>
                 )
             });
 
-            setRecipesList(newRecipeList)
+            recipeListState.recipeListState.setRecipeList(newRecipeList)
             // console.log(allRecipes)
         },(error) => {
                 console.log(error)
@@ -30,8 +30,9 @@ export default function Home() {
     },[])
     return(
         <>
-            <div className="content">
-                {recipesList}                
+            <div className="page-contents">
+                <span className="heading">Recipes</span>
+                {recipeListState.recipeListState.recipeList}                
             </div> 
         </>
   )

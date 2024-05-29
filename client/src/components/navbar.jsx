@@ -3,30 +3,31 @@ import { NavLink } from "react-router-dom"
 
 import Search from "./searchBox"
 
-const Navbar = (userState) => {
+const Navbar = (recipeListState) => {
+    // console.log("navbar",recipeListState)
     return(
         <header id="navbar">
         <a className="brand" href="./">Recipe Manager</a>
         <nav className="nav">
             <ul className="nav-list">
-                <Search id="search-field"/>
+                <Search id="search-field" recipeListState={recipeListState}/>
              
-                <LoggedInNav name="My Recipes" link={"/my-recipes"} currentUser={userState.currentUser}/>
-                <LoggedInNav name="Add Recipe" link={"/add-recipe"} currentUser={userState.currentUser}/>
+                <LoggedInNav name="My Recipes" link={"/my-recipes"}/>
+                <LoggedInNav name="Add Recipe" link={"/add-recipe"}/>
 
                 <NavLink className="nav-item-text" to="/">
                     <li className="nav-item" id="recipes-nav-option">
                         <span>Recipes</span>    
                     </li>
                 </NavLink>
-                <LoginText userState={userState}/>
+                <LoginText/>
 
             </ul> 
         </nav>
       </header>
     )
 
-    function LoggedInNav({name, link, currentUser}){
+    function LoggedInNav({name, link}){
         // console.log(currentUser)
         if(!sessionStorage.getItem("userid")){
             return null
@@ -44,7 +45,7 @@ const Navbar = (userState) => {
         // userState.setCurrentUser("")
     // }
 
-    function LoginText({userState}) {
+    function LoginText() {
         // console.log("LOGINTEXT", userState)
         if(sessionStorage.getItem("userid")){
             return(
