@@ -207,6 +207,9 @@ app.get('/get-recipes', (req, res) => {
            console.log(err) 
         }
     }
+    else{
+        res.send("hello")
+    }
 })
 
 app.get('/get-recipe-content' ,(req, res) => {
