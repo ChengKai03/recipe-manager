@@ -457,6 +457,18 @@ app.get("/check-is-saved", (req,res) => {
     // res.send("hello")
 })
 
+app.get("/get-saved-recipes", (req, res) => {
+    const sql = `SELECT Recipe.recipeID, Recipe.recipeTitle FROM Saves RIGHT JOIN Recipe ON Saves.recipeID = Recipe.recipeID WHERE Saves.userID = ?`
+    const sqlFormatted = mysql.format(sql, [req.query.user])
+    pool.query(sqlFormatted, (err, result) => {
+        if(err){
+            console.log(err)
+        }
+        res.send(result)
+        
+    })
+})
+
 app.listen(port, () => {
       console.log(`server listening on port ${port}`)
 })

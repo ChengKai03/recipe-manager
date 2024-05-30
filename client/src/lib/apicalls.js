@@ -285,6 +285,19 @@ const checkIsSaved = (userID, recipeID) => {
     })
 }
 
+const getSaved = (userID) => {
+    return new Promise((resolve) => {
+        axios.get("/get-saved-recipes", {
+            params: {
+                user: userID
+            }
+        }).then((res) => {
+                console.log(res)
+                resolve(res.data)
+            })
+    })
+}
+
 const apis = {
     apiTest,
     login,
@@ -299,7 +312,8 @@ const apis = {
     deleteAccount,
     addSaved,
     removeSaved,
-    checkIsSaved
+    checkIsSaved,
+    getSaved
 }
 
 export default apis

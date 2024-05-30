@@ -12,7 +12,7 @@ export default function MyRecipes(currentUser){
 
     // const [recipes, setRecipes] = useState([])
     const [recipeUI, setRecipeUI] = useState([])
-
+    const [savedRecipesUI, setSavedRecipesUI] = useState([])
     const navigate = useNavigate()
 
 
@@ -40,6 +40,21 @@ export default function MyRecipes(currentUser){
             });
             setRecipeUI(newUI)
         })
+
+        apicalls.getSaved(sessionStorage.getItem("userid")).then((res) => {
+            let newUI = []
+
+            res.forEach(element => {
+                newUI = newUI.concat(
+                    <div className="sub-header-container">
+                        <span className="sub-header">{element.recipeTitle}</span>
+                        <Button variant="outlined" name={element.recipeID} onClick={viewRecipe}>View</Button>
+                    </div>
+                )
+            })
+            setSavedRecipesUI(newUI)
+        })
+
     }, [navigate])
 
     return (
@@ -47,6 +62,8 @@ export default function MyRecipes(currentUser){
         <span className="heading">Your Recipes</span>
         {recipeUI}
         <Divider className="divider"/>
+        <span className="heading">Saved Recipes</span>
+        {savedRecipesUI}
     </>
     )
 
