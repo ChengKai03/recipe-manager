@@ -208,7 +208,14 @@ app.get('/get-recipes', (req, res) => {
         }
     }
     else{
-        res.send("hello")
+        const sql = `SELECT * FROM Recipe WHERE userID = ?`
+        const sqlFormatted = mysql.format(sql, [req.query.search])
+        console.log(sqlFormatted)
+        pool.query(sqlFormatted, (err, result) => {
+            console.log(result)
+            // console.log(err)
+            res.send(result)
+        })
     }
 })
 
