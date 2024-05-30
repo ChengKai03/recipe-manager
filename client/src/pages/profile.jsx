@@ -10,7 +10,7 @@ const Profile = () => {
     const navigate = useNavigate() 
     const { userID } = useParams() 
 
-    const [updater, setUpdater] = useState("")
+    // const [updater, setUpdater] = useState("")
     const [recipeCount, setRecipeCount] = useState(0)
     const [profile, setProfile] = useState({
         newUsername: "",
@@ -23,7 +23,7 @@ const Profile = () => {
         apicalls.getRecipeCount(sessionStorage.getItem("userid")).then((result) => {
             setRecipeCount(result.count)
         })
-    }, recipeCount)
+    }, [recipeCount])
 
     const handleChange = (event) => {
         const name = event.target.name
@@ -85,7 +85,7 @@ const Profile = () => {
         // api call update
         apicalls.updatePassword(profile.newPassword)
         // then set sessionStorage userID to new userId
-        const path = `/profile/${sessionStorage.getItem("userid")}`
+        // const path = `/profile/${sessionStorage.getItem("userid")}`
         window.location.reload()
     }
 

@@ -1,7 +1,7 @@
 
 
 
-import { Button } from "@mui/material"
+import { Button, Divider } from "@mui/material"
 import { useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
 import apicalls from "../lib/apicalls.js"
@@ -10,18 +10,19 @@ import apicalls from "../lib/apicalls.js"
 
 export default function MyRecipes(currentUser){
 
-    const [recipes, setRecipes] = useState([])
+    // const [recipes, setRecipes] = useState([])
     const [recipeUI, setRecipeUI] = useState([])
 
     const navigate = useNavigate()
 
 
-    const viewRecipe = (event) => {
-        console.log(event.target.name)
-        navigate(`/recipes/${event.target.name}`)
-    }
     
     useEffect(() => {
+
+        const viewRecipe = (event) => {
+            console.log(event.target.name)
+            navigate(`/recipes/${event.target.name}`)
+        }
         apicalls.getRecipes(sessionStorage.getItem("userid")).then((res) => {
             console.log(res)
             
@@ -39,11 +40,13 @@ export default function MyRecipes(currentUser){
             });
             setRecipeUI(newUI)
         })
-    }, recipes)
+    }, [navigate])
 
     return (
     <>
+        <span className="heading">Your Recipes</span>
         {recipeUI}
+        <Divider className="divider"/>
     </>
     )
 

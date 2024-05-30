@@ -236,7 +236,54 @@ const deleteAccount = (userID) => {
     })
 }
 
+const addSaved = (userID, recipeID) => {
+    return new Promise((resolve) => {
+        axios.post("/save-recipe", {
+            params: {
+                user: userID,
+                recipe: recipeID
+            }
+        }).then((response) => {
+            if(response.status !== 200){
+                alert("Error saving recipe")
+                resolve(false)
+            }
+            resolve(true)
+        })
+    })
+}
 
+const removeSaved = (userID, recipeID) => {
+    return new Promise((resolve) => {
+        axios.post("/remove-recipe", {
+            params: {
+                user: userID,
+                recipe: recipeID
+            }
+        }).then((response) => {
+            if(response.status !== 200){
+                alert("Error removing recipe")
+                resolve(false)
+            }
+            resolve(true)
+        })
+    })
+}
+
+const checkIsSaved = (userID, recipeID) => {
+    // console.log("CHECKING")
+    return new Promise((resolve) => {
+        axios.get("/check-is-saved", {
+            params: {
+                user: userID,
+                recipe: recipeID
+            }
+        }).then((response) => {
+                console.log("saved?",response)
+                resolve(response.data)
+            })
+    })
+}
 
 const apis = {
     apiTest,
@@ -249,7 +296,10 @@ const apis = {
     checkUserHash,
     updateUsername,
     updatePassword,
-    deleteAccount
+    deleteAccount,
+    addSaved,
+    removeSaved,
+    checkIsSaved
 }
 
 export default apis

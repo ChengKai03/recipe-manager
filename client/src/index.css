@@ -215,3 +215,12 @@ header{
 .divider{
     padding: 20px;
 }
+
+.like{
+    width: 1rem;
+    height: 1rem;
+}
+
+.like:hover{
+    color: gray;
+}
