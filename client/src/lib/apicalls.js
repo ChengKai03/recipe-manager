@@ -207,7 +207,19 @@ const updateUsername = (newUsername) => {
 }
 
 const updatePassword = (newPassword) => {
-        console.log("Password change")
+    console.log("Password change")
+    const user = sessionStorage.getItem("userid")
+    return new Promise((resolve) => {
+        axios.post("/update-password", {newPassword, user}).then((res) => {
+            console.log(res)
+            if(res.status !== 200){
+                alert("Error updating password")
+                resolve(false)
+            }
+            resolve(true)
+
+        })
+    })
     
 }
 

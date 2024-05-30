@@ -351,6 +351,28 @@ app.post("/update-username", (req, res) => {
     // res.sendStatus(200)
 })
 
+app.post("/update-password", (req, res) => {
+    console.log(req)
+    const sql = `UPDATE Website_user SET \`password\` = ? WHERE userID = ?`
+
+    const hash = bcrypt.hashSync(req.body.newPassword)
+
+    const sqlFormatted = mysql.format(sql, [hash, req.body.user])
+    console.log(sqlFormatted)
+
+    pool.query(sqlFormatted, (err, result) => {
+        if(result){
+            res.sendStatus(200)
+        }
+        else{
+            res.sendStatus(202)
+        }
+    })
+
+
+    // res.sendStatus(200)
+})
+
 app.listen(port, () => {
       console.log(`server listening on port ${port}`)
 })

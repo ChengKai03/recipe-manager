@@ -47,7 +47,8 @@ const Profile = () => {
             console.log(res)
             if(res){
                 sessionStorage.setItem("userid",profile.newUsername)
-                navigate("/")
+                // navigate("/")
+                window.location.reload()
             } 
         })
 
@@ -80,7 +81,7 @@ const Profile = () => {
         apicalls.updatePassword(profile.newPassword)
         // then set sessionStorage userID to new userId
         const path = `/profile/${sessionStorage.getItem("userid")}`
-        // window.location.reload()
+        window.location.reload()
     }
 
     const logout = () => {
