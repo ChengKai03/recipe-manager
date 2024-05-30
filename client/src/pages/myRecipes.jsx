@@ -35,7 +35,7 @@ export default function MyRecipes(currentUser){
             })
         } 
 
-        apicalls.getRecipes(sessionStorage.getItem("userid")).then((res) => {
+        apicalls.getMyRecipes(sessionStorage.getItem("userid")).then((res) => {
             console.log(res)
             
             let newUI = []

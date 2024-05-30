@@ -124,6 +124,18 @@ const createRecipe = (recipe) => {
     
 }
 
+const getMyRecipes = (userid) => {
+    return new Promise((resolve) => {
+        axios.get('/get-user-recipes', {
+            params: {
+                user: userid
+            }
+        }).then((response) => {
+                resolve(response.data)
+            })
+    })
+}
+
 const getRecipes = (searchQuery = "") => {
     return new Promise((resolve) => {
             axios.get('/get-recipes', {
@@ -322,6 +334,7 @@ const apis = {
     createAccount,
     createRecipe,
     getRecipes,
+    getMyRecipes,
     getRecipeContent,
     getRecipeCount,
     checkUserHash,
