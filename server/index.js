@@ -395,6 +395,67 @@ app.post("/delete-account", (req, res) => {
     })
 })
 
+app.post("/save-recipe", (req, res) => {
+    console.log(req.body)
+    const sql = `INSERT INTO Saves (userID, recipeID) VALUES (?, ?)`
+    const sqlFormatted = mysql.format(sql, [req.body.params.user, req.body.params.recipe])
+    console.log(sqlFormatted)
+
+    pool.query(sqlFormatted, (err, result) => {
+        if(err){
+            console.log(err)
+        }
+        if(result){
+            res.sendStatus(200)
+        }
+        else{
+            res.sendStatus(202)
+        }
+    })
+
+    // res.send("hello")
+})
+
+app.post("/remove-recipe", (req, res) => {
+    console.log(req.body)
+    const sql = `DELETE FROM Saves WHERE userID = ? AND recipeID = ?`
+    const sqlFormatted = mysql.format(sql, [req.body.params.user, req.body.params.recipe])
+    console.log(sqlFormatted)
+
+    pool.query(sqlFormatted, (err, result) => {
+        if(err){
+            console.log(err)
+        }
+        if(result){
+            res.sendStatus(200)
+        }
+        else{
+            res.sendStatus(202)
+        }
+    })
+
+    // res.send("hello")
+})
+
+app.get("/check-is-saved", (req,res) => {
+    console.log("CHECKING IS SAVED", req.body)
+    const sql = `SELECT * FROM Saves WHERE userID = ? AND recipeID = ?`
+    const sqlFormatted = mysql.format(sql, [req.query.user, req.query.recipe])
+    console.log(sqlFormatted)
+    pool.query(sqlFormatted, (err, result) => {
+        if(err){
+            console.log(err)
+        }
+        console.log(result)
+        if(result){
+            res.send(true)
+        }
+        else{
+            res.send(false)
+        }
+    })
+    // res.send("hello")
+})
 
 app.listen(port, () => {
       console.log(`server listening on port ${port}`)
