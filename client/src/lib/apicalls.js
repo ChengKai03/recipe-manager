@@ -298,6 +298,23 @@ const getSaved = (userID) => {
     })
 }
 
+const deleteRecipe = (recipeID) => {
+    return new Promise((resolve) => {
+        axios.post("/delete-recipe", {
+            params: {
+                recipe: recipeID
+            } 
+        }).then((res) => {
+                if(res.status !== 200){
+                    alert("Error deleting recipe")
+                    resolve(false)
+                }
+                resolve(true)
+            })
+    })
+}
+
+
 const apis = {
     apiTest,
     login,
@@ -313,7 +330,8 @@ const apis = {
     addSaved,
     removeSaved,
     checkIsSaved,
-    getSaved
+    getSaved,
+    deleteRecipe
 }
 
 export default apis

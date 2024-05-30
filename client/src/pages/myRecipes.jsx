@@ -23,6 +23,18 @@ export default function MyRecipes(currentUser){
             console.log(event.target.name)
             navigate(`/recipes/${event.target.name}`)
         }
+
+        const deleteRecipe = (event) => {
+            apicalls.deleteRecipe(event.target.name).then((res) => {
+                console.log(res)
+                if(res){
+                    window.location.reload()
+                }
+                // window.location.reload()
+                return
+            })
+        } 
+
         apicalls.getRecipes(sessionStorage.getItem("userid")).then((res) => {
             console.log(res)
             
@@ -34,7 +46,7 @@ export default function MyRecipes(currentUser){
                         <span className="sub-header">{element.recipeTitle}</span>
                         <Button variant="outlined" name={element.recipeID} onClick={viewRecipe}>View</Button>
                         <Button variant="outlined">Edit</Button>
-                        <Button variant="outlined">Delete</Button>
+                        <Button variant="outlined" name={element.recipeID} onClick={deleteRecipe}>Delete</Button>
                     </div>
                 ) 
             });

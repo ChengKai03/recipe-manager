@@ -469,6 +469,24 @@ app.get("/get-saved-recipes", (req, res) => {
     })
 })
 
+app.post("/delete-recipe", (req, res) => {
+    const sql = `DELETE FROM Recipe WHERE recipeID = ?`
+    const sqlFormatted = mysql.format(sql, [req.body.params.recipe])
+    pool.query(sqlFormatted, (err, result) => {
+        if (err){
+            console.log(err)
+        }
+        if(result){
+            res.sendStatus(200)
+        }
+        else{
+            res.sendStatus(202)
+        }
+    })
+})
+
+
+
 app.listen(port, () => {
       console.log(`server listening on port ${port}`)
 })
