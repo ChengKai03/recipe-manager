@@ -13,6 +13,7 @@ import CreateAccount from './pages/createAccount';
 import Logout from './pages/logout';
 import Recipe from './pages/specificRecipe.jsx'
 import Profile from './pages/profile';
+import EditRecipe from './pages/editRecipe';
 
 
 // axios.defaults.baseURL = 'http://localhost:8080';
@@ -39,6 +40,7 @@ function App() {
                 <Route path="/logout" element={<Logout currentUser={currentUser} setCurrentUser={setCurrentUser}/>} />    
                 <Route path="/recipes/:recipeID" element={ <Recipe/>} />
                 <Route path='/profile/:userID' element={ <Profile/>}/>
+                <Route path='/edit-recipe/:recipeID' element={<EditRecipe/>}/>
             </Routes>
           </Router>
     </>

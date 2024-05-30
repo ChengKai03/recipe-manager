@@ -35,6 +35,10 @@ export default function MyRecipes(currentUser){
             })
         } 
 
+        const editRecipe = (event) => {
+            navigate(`/edit-recipe/${event.target.name}`)
+        }
+
         apicalls.getMyRecipes(sessionStorage.getItem("userid")).then((res) => {
             console.log(res)
             
@@ -45,7 +49,7 @@ export default function MyRecipes(currentUser){
                     <div className="sub-header-container">
                         <span className="sub-header">{element.recipeTitle}</span>
                         <Button variant="outlined" name={element.recipeID} onClick={viewRecipe}>View</Button>
-                        <Button variant="outlined">Edit</Button>
+                        <Button variant="outlined" name={element.recipeID} onClick={editRecipe}>Edit</Button>
                         <Button variant="outlined" name={element.recipeID} onClick={deleteRecipe}>Delete</Button>
                     </div>
                 ) 
