@@ -223,6 +223,21 @@ const updatePassword = (newPassword) => {
     
 }
 
+const deleteAccount = (userID) => {
+    const user = userID
+    return new Promise((resolve) => {
+        axios.post("/delete-account", {user}).then((res) => {
+            if(res.status !== 200){
+                alert("Error deleting account")
+                resolve(false)
+            }
+            resolve(true)
+        })
+    })
+}
+
+
+
 const apis = {
     apiTest,
     login,
@@ -233,7 +248,8 @@ const apis = {
     getRecipeCount,
     checkUserHash,
     updateUsername,
-    updatePassword
+    updatePassword,
+    deleteAccount
 }
 
 export default apis

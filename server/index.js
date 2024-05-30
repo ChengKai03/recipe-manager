@@ -373,6 +373,22 @@ app.post("/update-password", (req, res) => {
     // res.sendStatus(200)
 })
 
+app.post("/delete-account", (req, res) => {
+    console.log(req)
+    const sql = `DELETE FROM Website_user WHERE userID = ?`
+    const sqlFormatted = mysql.format(sql, [req.body.user])
+
+    pool.query(sqlFormatted, (err, result) => {
+        if(result){
+            res.sendStatus(200)
+        }
+        else{
+            res.sendStatus(202)
+        }
+    })
+})
+
+
 app.listen(port, () => {
       console.log(`server listening on port ${port}`)
 })

@@ -34,6 +34,11 @@ const Profile = () => {
 
     const deleteProfile = () => {
         console.log("Deleting Profile")
+        apicalls.deleteAccount(sessionStorage.getItem("userid")).then((res) => {
+            if(res){
+                navigate("/logout")
+            }
+        })
     }
 
     const updateUsername = () => {
