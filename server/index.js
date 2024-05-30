@@ -163,6 +163,7 @@ app.post('/create-recipe', (req, res) => {
                         resolve()
                     })
             })
+            insertIngredient.then(insertIngredientDependancy)
         });
         resolve()
     })
@@ -182,10 +183,13 @@ app.post('/create-recipe', (req, res) => {
     })
 
     
-    recipePromise.then(equipmentPromise).then(ingredientPromise).then(instructionPromise).then(() => {
-        res.sendStatus(200)
-    })
+    // recipePromise.then(equipmentPromise).then(ingredientPromise).then(instructionPromise).then(() => {
+    //     res.sendStatus(200)
+    // })
 
+    Promise.all([recipePromise, equipmentPromise, ingredientPromise, instructionPromise]).then(() => {
+        res.sendStatus((200))
+    })
 
 
     // res.sendStatus(200) 

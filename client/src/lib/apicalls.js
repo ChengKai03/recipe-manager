@@ -71,7 +71,7 @@ const createAccount = async(username, password) => {
 //  specialEquipment: array[strings]
 //  cookTime: Int
 //}
-const createRecipe = async(recipe) => {
+const createRecipe = (recipe) => {
     console.log("Creating Recipe")
 
     console.log(recipe)
@@ -113,14 +113,15 @@ const createRecipe = async(recipe) => {
         recipe.specialEquipment[i] = capitalizeFirstLetter(element)
     });
 
-    let success = true
-    try{
-       await axios.post('/create-recipe', recipe) 
-    }
-    catch(err){
-        success = false
-    }
-    return success
+    return new Promise((resolve) => {
+
+       axios.post('/create-recipe', recipe).then((res) => {
+            if(res){
+                resolve(true)
+            }
+        })
+    })
+    
 }
 
 const getRecipes = (searchQuery = "") => {
