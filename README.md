@@ -2,8 +2,7 @@
 
 TODOS:
 
-API CALLS:
-    get recipes that from search
+API CALLS: 
     edit recipe from myRecipe 
     
 
