@@ -211,7 +211,19 @@ app.get('/get-recipes', (req, res) => {
            console.log(err) 
         }
     }
-    else{
+    else{ //query db for match
+        const sql = `SELECT DISTINCT Recipe.recipeID, Recipe.recipeTitle FROM Recipe 
+            LEFT JOIN Recipe_uses ON Recipe.recipeID = Recipe_uses.recipeID
+            LEFT JOIN Recipe_contains ON Recipe.recipeID = Recipe_contains.recipeID 
+            WHERE Recipe.category LIKE ? OR Recipe_uses.toolName LIKE ? OR Recipe_contains.ingName LIKE ?`
+        const sqlFormatted = mysql.format(sql, [req.query.search, req.query.search, req.query.search])
+        console.log(sqlFormatted)
+        pool.query(sqlFormatted, (err, result) => {
+            if(err){
+                console.log(err)
+            }
+            res.send(result)
+        })
     }
 })
 
