@@ -438,7 +438,7 @@ app.post("/remove-recipe", (req, res) => {
 })
 
 app.get("/check-is-saved", (req,res) => {
-    console.log("CHECKING IS SAVED", req.body)
+    console.log("CHECKING IS SAVED", req.query)
     const sql = `SELECT * FROM Saves WHERE userID = ? AND recipeID = ?`
     const sqlFormatted = mysql.format(sql, [req.query.user, req.query.recipe])
     console.log(sqlFormatted)
@@ -446,8 +446,8 @@ app.get("/check-is-saved", (req,res) => {
         if(err){
             console.log(err)
         }
-        console.log(result)
-        if(result){
+        console.log("IS SAVED?\n",result)
+        if(result.length){
             res.send(true)
         }
         else{
