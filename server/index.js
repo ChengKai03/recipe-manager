@@ -506,6 +506,172 @@ app.post("/delete-recipe", (req, res) => {
     })
 })
 
+app.post("/update-recipe", (req, res) => {
+    console.log("Updating recipe")
+    console.log(req.body)
+
+
+    const updateRecipeBase = new Promise((resolve) => {
+        const sql = `UPDATE Recipe SET recipeTitle = ?, category = ?, cookTime = ? WHERE recipeID = ?`
+        const sqlFormatted = mysql.format(sql, [req.body.title, req.body.category, req.body.cookTime, req.body.id])
+        console.log(sqlFormatted)
+        pool.query((sqlFormatted), (err, res) => {
+            if(err){
+                console.log(err)
+            }
+            if(res){
+                resolve()
+            }
+        })
+    })
+
+    const updateRecipeIngredients = new Promise((resolve) => {
+            
+        const deleteRecipeIngredients = new Promise((resolve) => {
+            const sql = `DELETE FROM Recipe_contains WHERE recipeID = ?`
+            const sqlFormatted = mysql.format(sql, [req.body.id])
+            console.log(sqlFormatted)
+            pool.query((sqlFormatted), (err, result) => {
+                if(err){
+                    console.log(err)
+                }
+                if(res){
+                    resolve()
+                }
+            })
+        })
+        
+     
+        const ingredientPromise = new Promise((resolve) => {
+
+            req.body.ingredients.forEach((ingredient, ingredientNum) => {
+                
+                const insertIngredient = new Promise((resolve) => {
+                    const sqlIngredient = `INSERT INTO Ingredient (ingName) VALUES (?)`
+                    const sqlIngredientFormatted = mysql.format(sqlIngredient, [ingredient])
+                    console.log(sqlIngredientFormatted)
+                    pool.query(sqlIngredientFormatted, (err, result) => {
+                        if(err){
+                            console.log(err)
+                        }
+                        console.log("ingredient", result)
+                        resolve()
+                    })
+                })
+
+                const insertIngredientDependancy = new Promise((resolve) => {
+                    const sqlRecipeContains = `INSERT INTO Recipe_contains (amount, recipeID, ingName) VALUES (?,?,?)`
+                    const sqlRecipeContainsFormatted = mysql.format(sqlRecipeContains, [req.body.amounts[ingredientNum], req.body.id, ingredient])
+                    console.log(sqlRecipeContainsFormatted)
+                    
+                        pool.query(sqlRecipeContainsFormatted, (err, result) => {
+                            if(err){
+                                console.log(err)
+                            }
+                            console.log("contains", result)
+                            resolve()
+                        })
+                })
+                insertIngredient.then(insertIngredientDependancy)
+            });
+            resolve()
+        })
+
+        deleteRecipeIngredients.then(ingredientPromise).then(() => {
+            resolve()
+        })
+    })
+
+    const updateRecipeSteps = new Promise((resolve) => {
+
+        const deleteRecipeSteps = new Promise((resolve) => {
+            const sql = `DELETE FROM Recipe_steps WHERE recipeID = ?`
+            const sqlFormatted = mysql.format(sql, [req.body.id])
+            console.log(sqlFormatted)
+            pool.query(sqlFormatted, (err, result) => {
+                if(err){
+                    console.log(err)
+                }
+                resolve()
+            })
+        })
+
+        const insertRecipeSteps = new Promise((resolve) => {    
+            req.body.instructions.forEach((step, stepNum) => {
+                const sqlStep = `INSERT INTO Recipe_steps (stepNum, instruction, recipeID) VALUES(?,?,?)`
+                const sqlStepFormatted = mysql.format(sqlStep, [stepNum+1, step, req.body.id])
+                console.log(sqlStepFormatted)
+
+                pool.query(sqlStepFormatted, (err, result) => {
+                    console.log("step",result)
+                })
+            })
+            resolve()
+        })
+        deleteRecipeSteps.then(insertRecipeSteps).then(() => {
+            resolve()
+        })
+    })
+
+    const updateRecipeEquipment = new Promise((resolve) => {
+        
+        const deleteRecipeEquipment = new Promise((resolve) => {
+            const sql = `DELETE FROM Recipe_uses WHERE recipeID = ?`
+            const sqlFormatted = mysql.format(sql, [req.body.id])
+            console.log(sqlFormatted)
+            pool.query(sqlFormatted, (err, result) =>{
+                if(err){
+                    console.log(err)
+                }
+                resolve()
+            })
+        })
+
+        
+        const equipmentPromise = new Promise((resolve) => {
+
+            req.body.specialEquipment.forEach((tool) => {
+                const sqlTool = `INSERT INTO SpecialTools (toolName) VALUES (?)`
+                const sqlToolFormatted = mysql.format(sqlTool, [tool])
+                console.log(sqlToolFormatted)
+        
+                const insertEquipment = new Promise((resolve) => {
+                    pool.query(sqlToolFormatted, (err, result) => {
+                        console.log("tools",result)
+                        resolve()
+                    })
+                })
+
+                const insertEquipmentDependancy = new Promise((resolve) => {
+                    const sqlRecipeUses = `INSERT INTO Recipe_uses (recipeID, toolName) VALUES (?,?)`
+                    const sqlRecipeUsesFormated = mysql.format(sqlRecipeUses,[req.body.id, tool])
+                    console.log(sqlRecipeUsesFormated)
+                    pool.query(sqlRecipeUsesFormated, (err, result) => {
+                        console.log("uses",result)
+                        resolve()
+                    })
+                })
+                insertEquipment.then(insertEquipmentDependancy)
+            })
+            resolve()
+        })
+
+        deleteRecipeEquipment.then(equipmentPromise).then(() => {
+            resolve()
+        })
+
+
+    })
+
+
+
+    updateRecipeBase.then(updateRecipeIngredients).then(updateRecipeSteps).then(() => {
+        console.log("finished updating")
+    })
+
+})
+
+
 
 
 app.listen(port, () => {

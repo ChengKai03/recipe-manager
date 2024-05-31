@@ -15,10 +15,31 @@ const EditRecipe = () => {
     }
 
     const update = (event) => {
-        // apicall to update
         console.log(recipe) 
         
-        // navigate("/my-recipes")
+        const recipeToSend = {
+            id: recipeID,
+            title: recipe.title,
+            ingredients: recipe.ingredients.filter((ingredient) => {return ingredient !== ""}),
+            amounts: recipe.amounts.filter((amount) => {return amount !== ""}),
+            instructions: recipe.instructions.filter((step) => {return step !== ""}),
+            specialEquipment: recipe.specialEquipment.filter((equipment) => {return equipment !== ""}),
+            cookTime: recipe.cookTime,
+            author: sessionStorage.getItem("userid"),
+            category: recipe.category
+        } 
+        
+        if(recipeToSend.ingredients.length !== recipeToSend.amounts.length){
+            alert("Fields do not match up")
+            return
+        }
+
+        apicalls.updateRecipe(recipeToSend).then((res) => {
+            console.log(res)
+
+        })
+
+            navigate("/my-recipes")
     }
 
 

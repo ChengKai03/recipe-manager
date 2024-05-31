@@ -110,6 +110,7 @@ export default function MyRecipes(currentUser){
             return
         }
         apicalls.createRecipe(recipeToSend) 
+        window.location.reload()
     }
 
 

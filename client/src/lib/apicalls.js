@@ -327,6 +327,56 @@ const deleteRecipe = (recipeID) => {
     })
 }
 
+const updateRecipe = (recipe) => {
+    if(!recipe){
+        alert("Fields are empty!")
+        return false
+    }
+    if(!recipe.title){
+        alert("Title is empty!")
+        return false
+    }
+    if(!recipe.cookTime || recipe.cookTime <= 0){
+        alert("Cook time is invalid")
+        return false
+    }
+    if(!recipe.ingredients.length){
+        alert("A recipe needs at least one ingredient")
+        
+        return false
+    }  
+    if(!recipe.instructions.length){
+        alert("A recipe needs at least one step")
+        return false
+    }
+
+
+    function capitalizeFirstLetter(string){
+        return string.charAt(0).toUpperCase() + string.slice(1)
+    }
+    recipe.title = capitalizeFirstLetter(recipe.title)
+    recipe.category = capitalizeFirstLetter(recipe.category)
+    recipe.ingredients.forEach((element, i) => {
+        recipe.ingredients[i] = capitalizeFirstLetter(element)
+    });
+    recipe.instructions.forEach((element, i) => {
+        recipe.instructions[i] = capitalizeFirstLetter(element)
+    })
+    recipe.specialEquipment.forEach((element, i) => {
+        recipe.specialEquipment[i] = capitalizeFirstLetter(element)
+    });
+
+    return new Promise((resolve) => {
+
+       axios.post('/update-recipe', recipe).then((res) => {
+            if(res){
+                resolve(true)
+            }
+            resolve(false)
+        })
+    })
+}
+
 
 const apis = {
     apiTest,
@@ -345,7 +395,8 @@ const apis = {
     removeSaved,
     checkIsSaved,
     getSaved,
-    deleteRecipe
+    deleteRecipe,
+    updateRecipe
 }
 
 export default apis
