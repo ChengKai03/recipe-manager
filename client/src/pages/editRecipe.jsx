@@ -36,10 +36,12 @@ const EditRecipe = () => {
 
         apicalls.updateRecipe(recipeToSend).then((res) => {
             console.log(res)
+            if(res){
 
+                navigate("/my-recipes")
+            }
         })
 
-            navigate("/my-recipes")
     }
 
 

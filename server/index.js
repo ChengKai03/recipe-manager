@@ -677,6 +677,7 @@ app.post("/update-recipe", (req, res) => {
 
     updateRecipeBase.then(updateRecipeIngredients).then(updateRecipeSteps).then(() => {
         console.log("finished updating")
+        res.sendStatus(200)
     })
 
 })

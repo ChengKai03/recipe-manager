@@ -77,24 +77,24 @@ const createRecipe = (recipe) => {
     console.log(recipe)
     if(!recipe){
         alert("Fields are empty!")
-        return false
+        return new Promise((resolve) => {resolve(false)})
     }
     if(!recipe.title){
         alert("Title is empty!")
-        return false
+        return new Promise((resolve) => {resolve(false)})
     }
     if(!recipe.cookTime || recipe.cookTime <= 0){
         alert("Cook time is invalid")
-        return false
+        return new Promise((resolve) => {resolve(false)})
     }
     if(!recipe.ingredients.length){
         alert("A recipe needs at least one ingredient")
+        return new Promise((resolve) => {resolve(false)})
         
-        return false
     }  
     if(!recipe.instructions.length){
         alert("A recipe needs at least one step")
-        return false
+        return new Promise((resolve) => {resolve(false)})
     }
 
 
@@ -258,7 +258,6 @@ const addSaved = (userID, recipeID) => {
             }
         }).then((response) => {
             if(response.status !== 200){
-                alert("Error saving recipe")
                 resolve(false)
             }
             resolve(true)
@@ -330,24 +329,26 @@ const deleteRecipe = (recipeID) => {
 const updateRecipe = (recipe) => {
     if(!recipe){
         alert("Fields are empty!")
-        return false
+        return new Promise((resolve) => {resolve(false)})
     }
     if(!recipe.title){
         alert("Title is empty!")
-        return false
+        return new Promise((resolve) => {resolve(false)})
     }
     if(!recipe.cookTime || recipe.cookTime <= 0){
         alert("Cook time is invalid")
-        return false
+        
+        return new Promise((resolve) => {resolve(false)})
     }
     if(!recipe.ingredients.length){
         alert("A recipe needs at least one ingredient")
         
-        return false
+        return new Promise((resolve) => {resolve(false)})
     }  
     if(!recipe.instructions.length){
         alert("A recipe needs at least one step")
-        return false
+
+        return new Promise((resolve) => {resolve(false)})
     }
 
 

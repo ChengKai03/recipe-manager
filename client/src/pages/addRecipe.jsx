@@ -109,8 +109,9 @@ export default function MyRecipes(currentUser){
             alert("Fields do not match up")
             return
         }
-        apicalls.createRecipe(recipeToSend) 
-        window.location.reload()
+        apicalls.createRecipe(recipeToSend).then(() => {
+            window.location.reload()
+        }) 
     }
 
 

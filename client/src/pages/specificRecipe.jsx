@@ -54,10 +54,15 @@ const Recipe = () => {
     const updateFavorite = () => {
         if(!favorite){
             //set to false
-            setFavorite(true)
             //apicall to add to save
             apicalls.addSaved(sessionStorage.getItem("userid"), recipeID).then((result) => {
                 console.log(result)
+                if(result){
+                    setFavorite(true)
+                }
+                else{
+                    alert("Error saving recipe")
+                }
             })
         }
         else{
