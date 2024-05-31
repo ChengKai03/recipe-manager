@@ -682,13 +682,13 @@ app.post("/update-recipe", (req, res) => {
 })
 
 
-
-app.get("/*", (req, res) => {
-    const dirname = path.resolve()
-    const fp = path.join(dirname, '../client', 'build/')
-    console.log(fp)
-    res.sendFile(fp)
-})
+//
+// app.get("/*", (req, res) => {
+//     const dirname = path.resolve()
+//     const fp = path.join(dirname, '../client', 'build/')
+//     console.log(fp)
+//     res.sendFile(fp)
+// })
 
 app.listen(port, () => {
       console.log(`server listening on port ${port}`)
