@@ -1,5 +1,7 @@
 //index.js
 
+const fs = require("fs")
+const path = require("path")
 const express = require('express');
 const app = express();
 const cors = require('cors');
@@ -10,7 +12,7 @@ const bcrypt = require("bcryptjs")
 app.use(cors())
 app.use(express.json())
 
-let port = process.env.PORT || 8080
+let port = process.env.port || 8080
 
 let mysql = require("mysql");
 const { configDotenv } = require('dotenv');
@@ -20,7 +22,15 @@ let pool = mysql.createPool({
   user  : process.env.sqlUsername,
   password: process.env.sqlPassword,
   database: 'cs340_chengkai'
-});
+})
+
+if(pool){
+    console.log(pool)
+    console.log("connection made")
+}
+
+app.use(express.static(path.join(__dirname, '../build')))
+
 
 app.get('/api', (req, res) => {
     res.send("hello from server")
@@ -215,8 +225,8 @@ app.get('/get-recipes', (req, res) => {
         const sql = `SELECT DISTINCT Recipe.recipeID, Recipe.recipeTitle FROM Recipe 
             LEFT JOIN Recipe_uses ON Recipe.recipeID = Recipe_uses.recipeID
             LEFT JOIN Recipe_contains ON Recipe.recipeID = Recipe_contains.recipeID 
-            WHERE Recipe.category LIKE ? OR Recipe_uses.toolName LIKE ? OR Recipe_contains.ingName LIKE ?`
-        const sqlFormatted = mysql.format(sql, [req.query.search, req.query.search, req.query.search])
+            WHERE Recipe.category LIKE ? OR Recipe_uses.toolName LIKE ? OR Recipe_contains.ingName LIKE ? OR Recipe.recipeTitle LIKE ?`
+        const sqlFormatted = mysql.format(sql, [`%${req.query.search}%`, `%${req.query.search}%`, `%${req.query.search}%`, `%${req.query.search}%`])
         console.log(sqlFormatted)
         pool.query(sqlFormatted, (err, result) => {
             if(err){
@@ -673,6 +683,12 @@ app.post("/update-recipe", (req, res) => {
 
 
 
+app.get("/*", (req, res) => {
+    const dirname = path.resolve()
+    const fp = path.join(dirname, '../client', 'build/')
+    console.log(fp)
+    res.sendFile(fp)
+})
 
 app.listen(port, () => {
       console.log(`server listening on port ${port}`)
