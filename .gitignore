@@ -1,5 +1,5 @@
-build/
-client/build/
+# build/
+# client/build/
 .DS_Store
 # Logs
 logs
